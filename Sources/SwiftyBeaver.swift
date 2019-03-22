@@ -69,15 +69,18 @@ open class SwiftyBeaver {
             return ""
         #else
             if Thread.isMainThread {
-                return ""
+                return "main"
             } else {
                 let threadName = Thread.current.name
                 if let threadName = threadName, !threadName.isEmpty {
                     return threadName
-                } else {
+                } else if let queueName = OperationQueue.current?.name , !queueName.isEmpty{
+                    return queueName
+                }else{
                     return String(format: "%p", Thread.current)
                 }
             }
+
         #endif
     }
 
